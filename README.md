@@ -13,9 +13,9 @@ It is written in Python 3.
    `pwlf.py`).
 
 - `implicit.py` solves the problem using and implicit representation
-   of the intermediate solutions.  This guarantees running time
-   $O(n^2)$, but is in practice slower than the explicit
-   representation (at least for random inputs).
+   of the intermediate solutions.  This guarantees quadratic running
+   time, but is in practice slower than the explicit representation
+   (at least for random inputs).
 
 - `runtime.py` compares the running time of the three methods.
 
