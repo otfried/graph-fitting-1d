@@ -35,6 +35,12 @@ class PieceWiseLinear(object):
   def __len__(self):
     return len(self.pieces)
 
+  def breakpoints(self):
+    bp = []
+    for p in self.pieces:
+      bp.append(p.beta)
+    return bp
+
   def add(self, piece):
     """Add a linear piece to the PWLF."""
     self.pieces.append(piece)
