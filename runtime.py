@@ -25,9 +25,9 @@ def call_one(d, f, descr):
     
 def call_three(n):
   sys.stderr.write("%d points:\n" % n)
-  d = make_distances(n, 50)
-  w1, t1 = qp.min_weights(d)
-  sys.stderr.write("Calling QP on %d points: %g secs\n" % (n, t1))
+  d = make_distances(n, 10000)
+  w1, t1, t0 = qp.min_weights(d)
+  sys.stderr.write("Calling QP on %d points: %g secs (%g secs for modelling)\n" % (n, t1, t0))
   w2, t2 = call_one(d, explicit.min_weights, "Explicit PWLF")  
   w3, t3 = call_one(d, implicit.min_weights, "Implicit Ri")
   dw1 = compare_weights(w1, w2)

@@ -3,7 +3,6 @@
 #
 
 import picos as pic
-import cvxopt as cvx
 
 import time
 import sys
@@ -32,25 +31,25 @@ def make_problem(dist):
     prob.add_constraint(w[i-1] + w[i] >= 1)
   squares = [v[i]**2 for i in range(1, n+1)]
   prob.set_objective('min', sum(squares))
-  #prob.convert_quad_to_socp()
   return prob, w, v
 
 # --------------------------------------------------------------------
 
-def min_weights(distances):
-  """Compute optimal weights for the given interpoint distances,
-using the quadratic solver in CVXOPT.
+def min_weights(distances, solver='cplex'):
+  """Compute optimal weights for the given interpoint distances
+using a quadratic solver through PICOS.
 
 Weights are returned as a list starting with None, so w1 is at index 1."""
+  t0 = time.perf_counter()
   prob, ws, vs = make_problem(distances)
   t1 = time.perf_counter()
-  prob.solve(solver='cvxopt', verbose=False, tol=1e-6)
+  prob.solve(solver=solver, verbose=False, tol=1e-9)
   t2 = time.perf_counter()  
   assert prob.status == 'optimal'
   weights = [ None ]
   for w in ws[1:]:
-    weights.append(w.value[0])
-  return weights, t2 - t1
+    weights.append(w.value)
+  return weights, t2 - t1, t1 - t0
     
 # --------------------------------------------------------------------
 
