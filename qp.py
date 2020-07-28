@@ -43,7 +43,7 @@ Weights are returned as a list starting with None, so w1 is at index 1."""
   t0 = time.perf_counter()
   prob, ws, vs = make_problem(distances)
   t1 = time.perf_counter()
-  prob.solve(solver=solver, verbose=False, tol=1e-9)
+  prob.solve(solver=solver, verbose=True, tol=1e-9)
   t2 = time.perf_counter()  
   assert prob.status == 'optimal'
   weights = [ None ]
@@ -54,8 +54,15 @@ Weights are returned as a list starting with None, so w1 is at index 1."""
 # --------------------------------------------------------------------
 
 if __name__ == "__main__":
-  distances = [ None, 7, 3, 29, 30, 12, 13, 17, 5, 8, 12, 29, 3, 5]
+  if len(sys.argv) >= 2:
+    dfile = open(sys.argv[1], "r")
+    distances = [ None ]
+    for line in dfile.readlines():
+      distances.append(float(line))
+  else:
+    distances = [ None, 7, 3, 29, 30, 12, 13, 17, 5, 8, 12, 29, 3, 5]
   w = min_weights(distances)
-  print(w)
+  for weight in w[1:]:
+    sys.stdout.write("%g\n" % weight)
 
 # --------------------------------------------------------------------

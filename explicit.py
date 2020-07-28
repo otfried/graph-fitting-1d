@@ -82,8 +82,15 @@ Weights are returned as a list starting with None, so w1 is at index 1."""
 # --------------------------------------------------------------------
 
 if __name__ == "__main__":
-  distances = [ None, 7, 3, 29, 30, 12, 13, 17, 5, 8, 12, 29, 3, 5]
+  if len(sys.argv) >= 2:
+    dfile = open(sys.argv[1], "r")
+    distances = [ None ]
+    for line in dfile.readlines():
+      distances.append(float(line))
+  else:
+    distances = [ None, 7, 3, 29, 30, 12, 13, 17, 5, 8, 12, 29, 3, 5]
   w = min_weights(distances)
-  print(w)
+  for weight in w[1:]:
+    sys.stdout.write("%g\n" % weight)
 
 # --------------------------------------------------------------------
